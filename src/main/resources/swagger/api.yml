@@ -16,7 +16,7 @@ paths:
       operationId: startGame
       responses:
         '200':
-          description: GameSessionID is returned
+          description: use the returned GameSessionID value in other endpoints
           content:
             application/json:
               schema:
