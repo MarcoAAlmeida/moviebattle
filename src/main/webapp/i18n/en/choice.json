@@ -1,0 +1,9 @@
+{
+  "moviebattleApp": {
+    "Choice": {
+      "null": "",
+      "RIGHT": "RIGHT",
+      "LEFT": "LEFT"
+    }
+  }
+}
