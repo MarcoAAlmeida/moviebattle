@@ -3,11 +3,8 @@ package br.dev.marcoalmeida.service.impl;
 import br.dev.marcoalmeida.domain.Movie;
 import br.dev.marcoalmeida.repository.MovieRepository;
 import br.dev.marcoalmeida.service.MovieService;
-import br.dev.marcoalmeida.service.dto.MoviePairDTO;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -86,12 +83,5 @@ public class MovieServiceImpl implements MovieService {
     public void delete(Long id) {
         log.debug("Request to delete Movie : {}", id);
         movieRepository.deleteById(id);
-    }
-
-    @Override
-    public MoviePairDTO getRandomPair() {
-        Set<Movie> titleSet = movieRepository.findAll().stream().collect(Collectors.toSet());
-
-        return new MoviePairDTO(titleSet.stream().skip(0).findFirst().get(), titleSet.stream().skip(1).findFirst().get());
     }
 }

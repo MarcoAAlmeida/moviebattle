@@ -1,11 +1,8 @@
 package br.dev.marcoalmeida.service.impl;
 
 import br.dev.marcoalmeida.domain.GameRound;
-import br.dev.marcoalmeida.domain.GameSession;
-import br.dev.marcoalmeida.domain.enumeration.Choice;
 import br.dev.marcoalmeida.repository.GameRoundRepository;
 import br.dev.marcoalmeida.service.GameRoundService;
-import br.dev.marcoalmeida.service.dto.MoviePairDTO;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -77,20 +74,5 @@ public class GameRoundServiceImpl implements GameRoundService {
     public void delete(Long id) {
         log.debug("Request to delete GameRound : {}", id);
         gameRoundRepository.deleteById(id);
-    }
-
-    @Override
-    public Optional<List<GameRound>> findByGameSessionAndUserChoice(GameSession gameSession, Choice userChoice) {
-        return gameRoundRepository.findAllByGameSessionIdAndUserChoice(gameSession, userChoice);
-    }
-
-    @Override
-    public GameRound createRound(GameSession gameSession, MoviePairDTO moviePairDTO) {
-        GameRound gameRound = new GameRound();
-        gameRound.setGameSessionId(gameSession);
-        gameRound.setUserChoice(Choice.NONE);
-        gameRound.setLeft(moviePairDTO.getLeft());
-        gameRound.setRight(moviePairDTO.getRight());
-        return gameRound;
     }
 }

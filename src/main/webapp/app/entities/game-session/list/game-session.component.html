@@ -44,6 +44,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="finished">
+            <div class="d-flex">
+              <span jhiTranslate="moviebattleApp.gameSession.finished">Finished</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -53,6 +59,7 @@
             <a [routerLink]="['/game-session', gameSession.id, 'view']">{{ gameSession.id }}</a>
           </td>
           <td>{{ gameSession.userId }}</td>
+          <td>{{ gameSession.finished }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button

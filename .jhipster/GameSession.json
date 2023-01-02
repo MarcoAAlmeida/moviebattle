@@ -8,6 +8,10 @@
     {
       "fieldName": "userId",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "finished",
+      "fieldType": "Boolean"
     }
   ],
   "fluentMethods": true,
