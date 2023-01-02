@@ -1,9 +1,12 @@
 package br.dev.marcoalmeida.config;
 
 import br.dev.marcoalmeida.security.*;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationEventPublisher;
+import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -123,5 +126,10 @@ public class SecurityConfiguration {
             .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN);
         return http.build();
         // @formatter:on
+    }
+
+    @Bean
+    public AuthenticationEventPublisher authenticationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        return new DefaultAuthenticationEventPublisher(applicationEventPublisher);
     }
 }

@@ -72,4 +72,11 @@ public class GameSessionServiceImpl implements GameSessionService {
         log.debug("Request to delete GameSession : {}", id);
         gameSessionRepository.deleteById(id);
     }
+
+    @Override
+    public GameSession createGameSession(Long userId) {
+        GameSession gameSession = new GameSession();
+        gameSession.setUserId(userId);
+        return this.save(gameSession);
+    }
 }

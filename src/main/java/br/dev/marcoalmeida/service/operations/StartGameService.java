@@ -28,14 +28,7 @@ public class StartGameService implements StartGameApiDelegate {
 
         return userService
             .getUserWithAuthoritiesByLogin(authentication.getName())
-            .map(this::creteNewGameSession)
+            .map(user -> new ResponseEntity<>(gameSessionService.createGameSession(user.getId()).toDTO(), HttpStatus.OK))
             .orElse(ResponseEntity.badRequest().build());
-    }
-
-    private ResponseEntity<GameSessionDTO> creteNewGameSession(User user) {
-        GameSession gameSession = new GameSession();
-        gameSession.setUserId(user.getId());
-
-        return new ResponseEntity<>(gameSessionService.save(gameSession).toDTO(), HttpStatus.OK);
     }
 }
