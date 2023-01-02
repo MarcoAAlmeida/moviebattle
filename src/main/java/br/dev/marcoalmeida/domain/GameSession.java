@@ -116,7 +116,7 @@ public class GameSession implements Serializable {
             "}";
     }
 
-    public GameSessionDTO toDTO() {
+    public GameSessionDTO gameSessionDTO() {
         return new GameSessionDTO().id(this.id.intValue());
     }
 }

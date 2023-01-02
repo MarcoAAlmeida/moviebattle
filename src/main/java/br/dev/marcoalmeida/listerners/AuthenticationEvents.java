@@ -21,8 +21,6 @@ public class AuthenticationEvents {
     @EventListener
     public void onSuccess(AuthenticationSuccessEvent success) {
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) success.getSource();
-        userService
-            .getUserWithAuthoritiesByLogin(((User) token.getPrincipal()).getUsername())
-            .map(user -> gameSessionService.createGameSession(user.getId()));
+        gameSessionService.createGameSession(((User) token.getPrincipal()).getUsername());
     }
 }
