@@ -3,8 +3,11 @@ package br.dev.marcoalmeida.service.impl;
 import br.dev.marcoalmeida.domain.GameSession;
 import br.dev.marcoalmeida.repository.GameSessionRepository;
 import br.dev.marcoalmeida.service.GameSessionService;
+import br.dev.marcoalmeida.service.dto.MoviePairDTO;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -78,5 +81,14 @@ public class GameSessionServiceImpl implements GameSessionService {
         GameSession gameSession = new GameSession();
         gameSession.setUserId(userId);
         return this.save(gameSession);
+    }
+
+    @Override
+    public Set<MoviePairDTO> getUsedMoviePairs(GameSession gameSession) {
+        return gameSession
+            .getGameRounds()
+            .stream()
+            .map(round -> new MoviePairDTO(round.getLeft(), round.getRight()))
+            .collect(Collectors.toSet());
     }
 }

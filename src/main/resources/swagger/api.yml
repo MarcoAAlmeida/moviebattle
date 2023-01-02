@@ -48,7 +48,7 @@ paths:
         '422':
           description: gameSession has already ended
         '500':
-          description: inconsitent game state
+          description: inconsitent game stateñ
       security:
         - sessionId: []
 components:

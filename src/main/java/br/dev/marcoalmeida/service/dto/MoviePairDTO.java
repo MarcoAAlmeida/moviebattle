@@ -1,51 +1,69 @@
 package br.dev.marcoalmeida.service.dto;
 
+import br.dev.marcoalmeida.domain.Movie;
 import br.dev.marcoalmeida.domain.User;
+import br.dev.marcoalmeida.service.api.dto.GameSessionDTO;
 import java.io.Serializable;
+import java.security.InvalidParameterException;
+import java.util.Objects;
 
 /**
- * A DTO representing a user, with only the public attributes.
+ * A DTO representing a movie pair
+ * [ A - A ] is invalid
+ * [ A - B ] equals [B - A].
  */
-public class UserDTO implements Serializable {
+public class MoviePairDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private Movie left;
+    private Movie right;
 
-    private String login;
+    public MoviePairDTO(Movie left, Movie right) throws InvalidParameterException {
+        if (left.equals(right)) throw new InvalidParameterException(String.format("[ A - A ] is and invalid pair %s - %s", left, right));
 
-    public UserDTO() {
-        // Empty constructor needed for Jackson.
+        this.left = left;
+        this.right = right;
     }
 
-    public UserDTO(User user) {
-        this.id = user.getId();
-        // Customize it here if you need, or not, firstName/lastName/etc
-        this.login = user.getLogin();
+    public Movie getLeft() {
+        return left;
     }
 
-    public Long getId() {
-        return id;
+    public void setLeft(Movie left) {
+        this.left = left;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Movie getRight() {
+        return right;
     }
 
-    public String getLogin() {
-        return login;
+    public void setRight(Movie right) {
+        this.right = right;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        MoviePairDTO moviePairDTO = (MoviePairDTO) o;
+        return (
+            Objects.equals(this.left, moviePairDTO.left) &&
+            Objects.equals(this.right, moviePairDTO.right) ||
+            (Objects.equals(this.left, moviePairDTO.right) && Objects.equals(this.right, moviePairDTO.left))
+        );
     }
 
     // prettier-ignore
     @Override
     public String toString() {
-        return "UserDTO{" +
-            "id='" + id + '\'' +
-            ", login='" + login + '\'' +
+        return "MoviePairDTO{" +
+            "left='" + left + '\'' +
+            ", right='" + right + '\'' +
             "}";
     }
 }
