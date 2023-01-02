@@ -1,0 +1,38 @@
+{
+  "applications": "*",
+  "changelogDate": "20230102011627",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "game_round",
+  "fields": [
+    {
+      "fieldName": "userChoice",
+      "fieldType": "Choice",
+      "fieldValues": "RIGHT,LEFT"
+    },
+    {
+      "fieldName": "correct",
+      "fieldType": "Boolean"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "GameRound",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "gameSession",
+      "otherEntityRelationshipName": "gameRound",
+      "relationshipName": "gameSessionId",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "movie",
+      "otherEntityRelationshipName": "gameRound",
+      "relationshipName": "leftId",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}
