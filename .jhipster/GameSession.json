@@ -7,7 +7,7 @@
   "fields": [
     {
       "fieldName": "userId",
-      "fieldType": "Long"
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,

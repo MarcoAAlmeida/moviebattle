@@ -13,7 +13,7 @@ export const sampleWithPartialData: IGameRound = {
 
 export const sampleWithFullData: IGameRound = {
   id: 65816,
-  userChoice: Choice['LEFT'],
+  userChoice: Choice['NONE'],
   correct: false,
 };
 

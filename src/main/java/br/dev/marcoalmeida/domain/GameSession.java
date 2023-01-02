@@ -22,7 +22,7 @@ public class GameSession implements Serializable {
     private Long id;
 
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
 
     @OneToMany(mappedBy = "gameSessionId")
     @JsonIgnoreProperties(value = { "gameSessionId", "left", "right" }, allowSetters = true)
@@ -43,16 +43,16 @@ public class GameSession implements Serializable {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return this.userId;
     }
 
-    public GameSession userId(Long userId) {
+    public GameSession userId(String userId) {
         this.setUserId(userId);
         return this;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -111,7 +111,7 @@ public class GameSession implements Serializable {
     public String toString() {
         return "GameSession{" +
             "id=" + getId() +
-            ", userId=" + getUserId() +
+            ", userId='" + getUserId() + "'" +
             "}";
     }
 }
