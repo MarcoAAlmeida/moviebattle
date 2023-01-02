@@ -1,6 +1,6 @@
 
 entity GameSession {
-    userId Long
+    userId String
 }
 
 entity GameRound {
@@ -17,7 +17,7 @@ entity Movie {
 }
 
 enum Choice {
-    RIGHT, LEFT
+    RIGHT, LEFT, NONE
 }
 
 relationship OneToMany {
