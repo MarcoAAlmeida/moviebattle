@@ -1,5 +1,6 @@
 package br.dev.marcoalmeida.domain;
 
+import br.dev.marcoalmeida.service.api.dto.GameSessionDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -113,5 +114,9 @@ public class GameSession implements Serializable {
             "id=" + getId() +
             ", userId='" + getUserId() + "'" +
             "}";
+    }
+
+    public GameSessionDTO toDTO() {
+        return new GameSessionDTO().id(this.id.intValue());
     }
 }
