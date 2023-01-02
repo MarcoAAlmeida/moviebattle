@@ -5,12 +5,13 @@ export const sampleWithRequiredData: IGameSession = {
 };
 
 export const sampleWithPartialData: IGameSession = {
-  id: 29222,
+  id: 12471,
 };
 
 export const sampleWithFullData: IGameSession = {
-  id: 12471,
-  userId: 'analyzer Managed',
+  id: 65818,
+  userId: 'Tasty',
+  finished: true,
 };
 
 export const sampleWithNewData: NewGameSession = {

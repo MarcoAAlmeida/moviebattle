@@ -14,11 +14,12 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type GameSessionFormGroupInput = IGameSession | PartialWithRequiredKeyOf<NewGameSession>;
 
-type GameSessionFormDefaults = Pick<NewGameSession, 'id'>;
+type GameSessionFormDefaults = Pick<NewGameSession, 'id' | 'finished'>;
 
 type GameSessionFormGroupContent = {
   id: FormControl<IGameSession['id'] | NewGameSession['id']>;
   userId: FormControl<IGameSession['userId']>;
+  finished: FormControl<IGameSession['finished']>;
 };
 
 export type GameSessionFormGroup = FormGroup<GameSessionFormGroupContent>;
@@ -39,6 +40,7 @@ export class GameSessionFormService {
         }
       ),
       userId: new FormControl(gameSessionRawValue.userId),
+      finished: new FormControl(gameSessionRawValue.finished),
     });
   }
 
@@ -59,6 +61,7 @@ export class GameSessionFormService {
   private getFormDefaults(): GameSessionFormDefaults {
     return {
       id: null,
+      finished: false,
     };
   }
 }

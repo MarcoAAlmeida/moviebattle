@@ -1,10 +1,8 @@
 package br.dev.marcoalmeida.service;
 
 import br.dev.marcoalmeida.domain.GameSession;
-import br.dev.marcoalmeida.service.dto.MoviePairDTO;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Service Interface for managing {@link GameSession}.
@@ -55,8 +53,4 @@ public interface GameSessionService {
      * @param id the id of the entity.
      */
     void delete(Long id);
-
-    GameSession createGameSession(String userId);
-
-    Set<MoviePairDTO> getUsedMoviePairs(GameSession gameSession);
 }

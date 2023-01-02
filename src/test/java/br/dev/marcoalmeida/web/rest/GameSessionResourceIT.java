@@ -33,6 +33,9 @@ class GameSessionResourceIT {
     private static final String DEFAULT_USER_ID = "AAAAAAAAAA";
     private static final String UPDATED_USER_ID = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_FINISHED = false;
+    private static final Boolean UPDATED_FINISHED = true;
+
     private static final String ENTITY_API_URL = "/api/game-sessions";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -57,7 +60,7 @@ class GameSessionResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static GameSession createEntity(EntityManager em) {
-        GameSession gameSession = new GameSession().userId(DEFAULT_USER_ID);
+        GameSession gameSession = new GameSession().userId(DEFAULT_USER_ID).finished(DEFAULT_FINISHED);
         return gameSession;
     }
 
@@ -68,7 +71,7 @@ class GameSessionResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static GameSession createUpdatedEntity(EntityManager em) {
-        GameSession gameSession = new GameSession().userId(UPDATED_USER_ID);
+        GameSession gameSession = new GameSession().userId(UPDATED_USER_ID).finished(UPDATED_FINISHED);
         return gameSession;
     }
 
@@ -96,6 +99,7 @@ class GameSessionResourceIT {
         assertThat(gameSessionList).hasSize(databaseSizeBeforeCreate + 1);
         GameSession testGameSession = gameSessionList.get(gameSessionList.size() - 1);
         assertThat(testGameSession.getUserId()).isEqualTo(DEFAULT_USER_ID);
+        assertThat(testGameSession.getFinished()).isEqualTo(DEFAULT_FINISHED);
     }
 
     @Test
@@ -133,7 +137,8 @@ class GameSessionResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(gameSession.getId().intValue())))
-            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID)));
+            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID)))
+            .andExpect(jsonPath("$.[*].finished").value(hasItem(DEFAULT_FINISHED.booleanValue())));
     }
 
     @Test
@@ -148,7 +153,8 @@ class GameSessionResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(gameSession.getId().intValue()))
-            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID));
+            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID))
+            .andExpect(jsonPath("$.finished").value(DEFAULT_FINISHED.booleanValue()));
     }
 
     @Test
@@ -170,7 +176,7 @@ class GameSessionResourceIT {
         GameSession updatedGameSession = gameSessionRepository.findById(gameSession.getId()).get();
         // Disconnect from session so that the updates on updatedGameSession are not directly saved in db
         em.detach(updatedGameSession);
-        updatedGameSession.userId(UPDATED_USER_ID);
+        updatedGameSession.userId(UPDATED_USER_ID).finished(UPDATED_FINISHED);
 
         restGameSessionMockMvc
             .perform(
@@ -186,6 +192,7 @@ class GameSessionResourceIT {
         assertThat(gameSessionList).hasSize(databaseSizeBeforeUpdate);
         GameSession testGameSession = gameSessionList.get(gameSessionList.size() - 1);
         assertThat(testGameSession.getUserId()).isEqualTo(UPDATED_USER_ID);
+        assertThat(testGameSession.getFinished()).isEqualTo(UPDATED_FINISHED);
     }
 
     @Test
@@ -279,6 +286,7 @@ class GameSessionResourceIT {
         assertThat(gameSessionList).hasSize(databaseSizeBeforeUpdate);
         GameSession testGameSession = gameSessionList.get(gameSessionList.size() - 1);
         assertThat(testGameSession.getUserId()).isEqualTo(UPDATED_USER_ID);
+        assertThat(testGameSession.getFinished()).isEqualTo(DEFAULT_FINISHED);
     }
 
     @Test
@@ -293,7 +301,7 @@ class GameSessionResourceIT {
         GameSession partialUpdatedGameSession = new GameSession();
         partialUpdatedGameSession.setId(gameSession.getId());
 
-        partialUpdatedGameSession.userId(UPDATED_USER_ID);
+        partialUpdatedGameSession.userId(UPDATED_USER_ID).finished(UPDATED_FINISHED);
 
         restGameSessionMockMvc
             .perform(
@@ -309,6 +317,7 @@ class GameSessionResourceIT {
         assertThat(gameSessionList).hasSize(databaseSizeBeforeUpdate);
         GameSession testGameSession = gameSessionList.get(gameSessionList.size() - 1);
         assertThat(testGameSession.getUserId()).isEqualTo(UPDATED_USER_ID);
+        assertThat(testGameSession.getFinished()).isEqualTo(UPDATED_FINISHED);
     }
 
     @Test

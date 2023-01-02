@@ -1,12 +1,8 @@
 package br.dev.marcoalmeida.service;
 
 import br.dev.marcoalmeida.domain.GameRound;
-import br.dev.marcoalmeida.domain.GameSession;
-import br.dev.marcoalmeida.domain.enumeration.Choice;
-import br.dev.marcoalmeida.service.dto.MoviePairDTO;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Service Interface for managing {@link GameRound}.
@@ -57,8 +53,4 @@ public interface GameRoundService {
      * @param id the id of the entity.
      */
     void delete(Long id);
-
-    Optional<List<GameRound>> findByGameSessionAndUserChoice(GameSession gameSession, Choice userChoice);
-
-    GameRound createRound(GameSession gameSession, MoviePairDTO moviePairDTO);
 }
