@@ -17,7 +17,7 @@ entity Movie {
 }
 
 enum Choice {
-    RIGHT, LEFT
+    RIGHT, LEFT, NONE
 }
 
 relationship OneToMany {

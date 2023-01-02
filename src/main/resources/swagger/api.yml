@@ -12,17 +12,43 @@ servers:
 paths:
   /startGame:
     get:
-      summary: startsGame
+      summary: returns an id value which can be used as gameSessionId parameter in other endpoints
       operationId: startGame
       responses:
         '200':
-          description: use the returned GameSessionID value in other endpoints
+          description: use the returned id value in other endpoints
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GameSessionDTO'
         '400':
-          description: Invalid ID supplied
+          description: could not generate a new gameSessionId
+      security:
+        - sessionId: []
+  /nextRound:
+    get:
+      summary: returns the next open
+      operationId: nextRound
+      parameters:
+        - name: gameSessionId
+          in: query
+          description: a previously created gameSessionId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: use the returned id value as GameRoundId in other endpoints
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenGameRoundDTO'
+        '404':
+          description: invalid gameSession ID supplied
+        '422':
+          description: gameSession has already ended
+        '500':
+          description: inconsitent game state
       security:
         - sessionId: []
 components:
@@ -33,6 +59,19 @@ components:
         id:
           type: integer
           example: 1
+    OpenGameRoundDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        left:
+          type: string
+          example: Star Wars
+        right:
+          type: string
+          example: Star Trek
+
   responses:
     Problem:
       description: error occurred - see status code and problem object for more information.

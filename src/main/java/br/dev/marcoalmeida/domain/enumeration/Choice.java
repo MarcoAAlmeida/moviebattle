@@ -6,4 +6,5 @@ package br.dev.marcoalmeida.domain.enumeration;
 public enum Choice {
     RIGHT,
     LEFT,
+    NONE,
 }

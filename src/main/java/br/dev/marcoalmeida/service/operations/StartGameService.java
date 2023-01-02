@@ -1,7 +1,9 @@
-package br.dev.marcoalmeida.service;
+package br.dev.marcoalmeida.service.operations;
 
 import br.dev.marcoalmeida.domain.GameSession;
 import br.dev.marcoalmeida.domain.User;
+import br.dev.marcoalmeida.service.GameSessionService;
+import br.dev.marcoalmeida.service.UserService;
 import br.dev.marcoalmeida.service.api.dto.GameSessionDTO;
 import br.dev.marcoalmeida.web.api.StartGameApiDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GameService implements StartGameApiDelegate {
+public class StartGameService implements StartGameApiDelegate {
 
     @Autowired
     GameSessionService gameSessionService;
@@ -20,6 +22,7 @@ public class GameService implements StartGameApiDelegate {
     @Autowired
     UserService userService;
 
+    @Override
     public ResponseEntity<GameSessionDTO> startGame() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
