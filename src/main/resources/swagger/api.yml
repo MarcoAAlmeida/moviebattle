@@ -9,8 +9,30 @@ servers:
     description: Development server
   - url: https://localhost:8080/api
     description: Development server with TLS Profile
-paths: {}
+paths:
+  /startGame:
+    get:
+      summary: startsGame
+      operationId: startGame
+      responses:
+        '200':
+          description: GameSessionID is returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameSessionDTO'
+        '400':
+          description: Invalid ID supplied
+      security:
+        - sessionId: []
 components:
+  schemas:
+    GameSessionDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
   responses:
     Problem:
       description: error occurred - see status code and problem object for more information.
