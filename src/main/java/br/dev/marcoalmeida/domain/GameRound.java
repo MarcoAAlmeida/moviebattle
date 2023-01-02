@@ -1,7 +1,7 @@
 package br.dev.marcoalmeida.domain;
 
 import br.dev.marcoalmeida.domain.enumeration.Choice;
-import br.dev.marcoalmeida.service.api.dto.OpenGameRoundDTO;
+import br.dev.marcoalmeida.service.api.dto.UnansweredGameRoundDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.*;
@@ -149,7 +149,7 @@ public class GameRound implements Serializable {
             "}";
     }
 
-    public OpenGameRoundDTO openGameRoundDTO() {
-        return new OpenGameRoundDTO().id(this.id.intValue()).left(this.left.getTitle()).right(this.right.getTitle());
+    public UnansweredGameRoundDTO openGameRoundDTO() {
+        return new UnansweredGameRoundDTO().id(this.id.intValue()).left(this.left.getTitle()).right(this.right.getTitle());
     }
 }

@@ -19,6 +19,7 @@
       },
       "id": "ID",
       "userId": "User Id",
+      "finished": "Finished",
       "gameRound": "Game Round"
     }
   }

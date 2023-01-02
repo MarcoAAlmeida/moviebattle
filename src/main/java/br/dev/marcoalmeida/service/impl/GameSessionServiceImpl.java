@@ -51,6 +51,10 @@ public class GameSessionServiceImpl implements GameSessionService {
                     existingGameSession.setUserId(gameSession.getUserId());
                 }
 
+                if (gameSession.getFinished() != null) {
+                    existingGameSession.setFinished(gameSession.getFinished());
+                }
+
                 return existingGameSession;
             })
             .map(gameSessionRepository::save);
@@ -80,6 +84,7 @@ public class GameSessionServiceImpl implements GameSessionService {
     public GameSession createGameSession(String userId) {
         GameSession gameSession = new GameSession();
         gameSession.setUserId(userId);
+        gameSession.setFinished(false);
         return this.save(gameSession);
     }
 
@@ -90,5 +95,10 @@ public class GameSessionServiceImpl implements GameSessionService {
             .stream()
             .map(round -> new MoviePairDTO(round.getLeft(), round.getRight()))
             .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Optional<GameSession> findOneWithRounds(Long id) {
+        return gameSessionRepository.findOneWithRounds(id);
     }
 }

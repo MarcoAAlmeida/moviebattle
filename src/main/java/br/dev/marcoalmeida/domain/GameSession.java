@@ -25,6 +25,9 @@ public class GameSession implements Serializable {
     @Column(name = "user_id")
     private String userId;
 
+    @Column(name = "finished")
+    private Boolean finished;
+
     @OneToMany(mappedBy = "gameSessionId")
     @JsonIgnoreProperties(value = { "gameSessionId", "left", "right" }, allowSetters = true)
     private Set<GameRound> gameRounds = new HashSet<>();
@@ -55,6 +58,19 @@ public class GameSession implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public Boolean getFinished() {
+        return this.finished;
+    }
+
+    public GameSession finished(Boolean finished) {
+        this.setFinished(finished);
+        return this;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
     }
 
     public Set<GameRound> getGameRounds() {
@@ -113,6 +129,7 @@ public class GameSession implements Serializable {
         return "GameSession{" +
             "id=" + getId() +
             ", userId='" + getUserId() + "'" +
+            ", finished='" + getFinished() + "'" +
             "}";
     }
 

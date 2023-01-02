@@ -18,6 +18,10 @@
         <dd>
           <span>{{ gameSession.userId }}</span>
         </dd>
+        <dt><span jhiTranslate="moviebattleApp.gameSession.finished">Finished</span></dt>
+        <dd>
+          <span>{{ gameSession.finished }}</span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

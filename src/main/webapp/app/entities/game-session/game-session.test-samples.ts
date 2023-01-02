@@ -11,6 +11,7 @@ export const sampleWithPartialData: IGameSession = {
 export const sampleWithFullData: IGameSession = {
   id: 12471,
   userId: 'analyzer Managed',
+  finished: true,
 };
 
 export const sampleWithNewData: NewGameSession = {

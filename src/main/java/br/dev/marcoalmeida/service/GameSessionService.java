@@ -59,4 +59,6 @@ public interface GameSessionService {
     GameSession createGameSession(String userId);
 
     Set<MoviePairDTO> getUsedMoviePairs(GameSession gameSession);
+
+    Optional<GameSession> findOneWithRounds(Long id);
 }

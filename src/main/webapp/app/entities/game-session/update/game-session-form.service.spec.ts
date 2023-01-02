@@ -21,6 +21,7 @@ describe('GameSession Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             userId: expect.any(Object),
+            finished: expect.any(Object),
           })
         );
       });
@@ -32,6 +33,7 @@ describe('GameSession Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             userId: expect.any(Object),
+            finished: expect.any(Object),
           })
         );
       });

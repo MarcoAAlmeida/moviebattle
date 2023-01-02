@@ -6,11 +6,12 @@ import br.dev.marcoalmeida.domain.enumeration.Choice;
 import br.dev.marcoalmeida.service.GameRoundService;
 import br.dev.marcoalmeida.service.GameSessionService;
 import br.dev.marcoalmeida.service.MovieService;
-import br.dev.marcoalmeida.service.api.dto.OpenGameRoundDTO;
+import br.dev.marcoalmeida.service.api.dto.UnansweredGameRoundDTO;
 import br.dev.marcoalmeida.service.dto.MoviePairDTO;
 import br.dev.marcoalmeida.web.api.NextRoundApiDelegate;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,36 +32,41 @@ public class NextRoundService implements NextRoundApiDelegate {
     private MovieService movieService;
 
     @Override
-    public ResponseEntity<OpenGameRoundDTO> nextRound(Integer gameSessionId) {
+    public ResponseEntity<UnansweredGameRoundDTO> nextRound(Integer gameSessionId) {
         return gameSessionService
-            .findOne(gameSessionId.longValue())
+            .findOneWithRounds(gameSessionId.longValue())
             .map(this::fetchNextRound)
             .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    private ResponseEntity<OpenGameRoundDTO> fetchNextRound(GameSession gameSession) {
-        return gameRoundService
-            .findByGameSessionAndUserChoice(gameSession, Choice.NONE)
-            .map(rounds -> checkRounds(gameSession, rounds))
-            .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    private ResponseEntity<UnansweredGameRoundDTO> fetchNextRound(GameSession gameSession) {
+        List<GameRound> unanswered = gameSession
+            .getGameRounds()
+            .stream()
+            .filter(gameRound -> gameRound.getUserChoice() == Choice.NONE)
+            .collect(Collectors.toUnmodifiableList());
+
+        return checkUnansweredSize(gameSession, unanswered);
     }
 
-    private ResponseEntity<OpenGameRoundDTO> checkRounds(GameSession gameSession, List<GameRound> gameRounds) {
-        return gameRounds.size() > 1
+    private ResponseEntity<UnansweredGameRoundDTO> checkUnansweredSize(GameSession gameSession, List<GameRound> unanswered) {
+        return unanswered.size() > 1
             ? ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
-            : gameRounds.size() == 1
-                ? new ResponseEntity<>(gameRounds.get(0).openGameRoundDTO(), HttpStatus.OK)
+            : unanswered.size() == 1
+                ? new ResponseEntity<>(unanswered.get(0).openGameRoundDTO(), HttpStatus.OK)
                 : createNewRound(gameSession);
     }
 
-    private ResponseEntity<OpenGameRoundDTO> createNewRound(GameSession gameSession) {
+    private ResponseEntity<UnansweredGameRoundDTO> createNewRound(GameSession gameSession) {
+        if (gameSession.getFinished()) return ResponseEntity.unprocessableEntity().build();
+
         Set<MoviePairDTO> usedPairs = gameSessionService.getUsedMoviePairs(gameSession);
 
         MoviePairDTO newPair;
         int i = 0;
         do {
             newPair = movieService.getRandomPair();
-        } while (!usedPairs.contains(newPair) || i < MAX_ATTEMPTS);
+        } while (usedPairs.contains(newPair) && i < MAX_ATTEMPTS);
 
         if (i == MAX_ATTEMPTS) {
             return ResponseEntity.internalServerError().build();

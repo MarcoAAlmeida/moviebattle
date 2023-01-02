@@ -91,6 +91,6 @@ public class GameRoundServiceImpl implements GameRoundService {
         gameRound.setUserChoice(Choice.NONE);
         gameRound.setLeft(moviePairDTO.getLeft());
         gameRound.setRight(moviePairDTO.getRight());
-        return gameRound;
+        return this.save(gameRound);
     }
 }

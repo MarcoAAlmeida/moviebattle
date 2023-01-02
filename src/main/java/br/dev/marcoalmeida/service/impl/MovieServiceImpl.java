@@ -4,9 +4,7 @@ import br.dev.marcoalmeida.domain.Movie;
 import br.dev.marcoalmeida.repository.MovieRepository;
 import br.dev.marcoalmeida.service.MovieService;
 import br.dev.marcoalmeida.service.dto.MoviePairDTO;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,8 +88,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MoviePairDTO getRandomPair() {
-        Set<Movie> titleSet = movieRepository.findAll().stream().collect(Collectors.toSet());
+        Stack<Movie> titleStack = new Stack<>();
+        titleStack.addAll(new HashSet<>(movieRepository.findAll()));
 
-        return new MoviePairDTO(titleSet.stream().skip(0).findFirst().get(), titleSet.stream().skip(1).findFirst().get());
+        return new MoviePairDTO(titleStack.pop(), titleStack.pop());
     }
 }
