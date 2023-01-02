@@ -53,6 +53,4 @@ public interface GameSessionService {
      * @param id the id of the entity.
      */
     void delete(Long id);
-
-    GameSession createGameSession(Long userId);
 }

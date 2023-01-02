@@ -1,2 +1,11 @@
 id;user_choice;correct
-
+1;RIGHT;false
+2;NONE;true
+3;LEFT;false
+4;RIGHT;true
+5;RIGHT;false
+6;NONE;false
+7;LEFT;true
+8;LEFT;false
+9;NONE;true
+10;LEFT;true
