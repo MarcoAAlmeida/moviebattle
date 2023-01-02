@@ -3,7 +3,8 @@
     "Choice": {
       "null": "",
       "RIGHT": "RIGHT",
-      "LEFT": "LEFT"
+      "LEFT": "LEFT",
+      "NONE": "NONE"
     }
   }
 }

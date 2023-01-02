@@ -74,7 +74,7 @@ public class GameSessionServiceImpl implements GameSessionService {
     }
 
     @Override
-    public GameSession createGameSession(Long userId) {
+    public GameSession createGameSession(String userId) {
         GameSession gameSession = new GameSession();
         gameSession.setUserId(userId);
         return this.save(gameSession);

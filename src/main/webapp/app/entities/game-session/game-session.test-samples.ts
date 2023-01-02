@@ -10,7 +10,7 @@ export const sampleWithPartialData: IGameSession = {
 
 export const sampleWithFullData: IGameSession = {
   id: 12471,
-  userId: 65818,
+  userId: 'analyzer Managed',
 };
 
 export const sampleWithNewData: NewGameSession = {

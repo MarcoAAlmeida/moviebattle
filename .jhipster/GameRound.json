@@ -8,7 +8,7 @@
     {
       "fieldName": "userChoice",
       "fieldType": "Choice",
-      "fieldValues": "RIGHT,LEFT"
+      "fieldValues": "RIGHT,LEFT,NONE"
     },
     {
       "fieldName": "correct",

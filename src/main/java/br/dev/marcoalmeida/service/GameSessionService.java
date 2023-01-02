@@ -54,5 +54,5 @@ public interface GameSessionService {
      */
     void delete(Long id);
 
-    GameSession createGameSession(Long userId);
+    GameSession createGameSession(String userId);
 }

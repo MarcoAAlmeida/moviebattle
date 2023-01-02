@@ -1,6 +1,6 @@
 export interface IGameSession {
   id: number;
-  userId?: number | null;
+  userId?: string | null;
 }
 
 export type NewGameSession = Omit<IGameSession, 'id'> & { id: null };
