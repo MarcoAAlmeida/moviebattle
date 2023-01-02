@@ -1,6 +1,7 @@
 
 entity GameSession {
     userId String
+    finished Boolean
 }
 
 entity GameRound {
