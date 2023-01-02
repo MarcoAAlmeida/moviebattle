@@ -1,0 +1,27 @@
+{
+  "applications": "*",
+  "changelogDate": "20230102012452",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "game_session",
+  "fields": [
+    {
+      "fieldName": "userId",
+      "fieldType": "Long"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "GameSession",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "gameRound",
+      "otherEntityRelationshipName": "gameSessionId",
+      "relationshipName": "gameRound",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

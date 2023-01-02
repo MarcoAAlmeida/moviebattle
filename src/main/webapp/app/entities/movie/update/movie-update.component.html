@@ -1,0 +1,96 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-movie-heading" data-cy="MovieCreateUpdateHeading" jhiTranslate="moviebattleApp.movie.home.createOrEditLabel">
+        Create or edit a Movie
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="moviebattleApp.movie.imdbId" for="field_imdbId">Imdb Id</label>
+          <input type="text" class="form-control" name="imdbId" id="field_imdbId" data-cy="imdbId" formControlName="imdbId" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="moviebattleApp.movie.title" for="field_title">Title</label>
+          <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="moviebattleApp.movie.imdbRating" for="field_imdbRating">Imdb Rating</label>
+          <input
+            type="number"
+            class="form-control"
+            name="imdbRating"
+            id="field_imdbRating"
+            data-cy="imdbRating"
+            formControlName="imdbRating"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="moviebattleApp.movie.imdbVotes" for="field_imdbVotes">Imdb Votes</label>
+          <input type="number" class="form-control" name="imdbVotes" id="field_imdbVotes" data-cy="imdbVotes" formControlName="imdbVotes" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="moviebattleApp.movie.score" for="field_score">Score</label>
+          <input type="number" class="form-control" name="score" id="field_score" data-cy="score" formControlName="score" />
+        </div>
+
+        <div class="row mb-3">
+          <label jhiTranslate="moviebattleApp.movie.right" for="field_rights">Right</label>
+          <select
+            class="form-control"
+            id="field_rights"
+            data-cy="right"
+            multiple
+            name="rights"
+            formControlName="rights"
+            [compareWith]="compareGameRound"
+          >
+            <option [ngValue]="gameRoundOption" *ngFor="let gameRoundOption of gameRoundsSharedCollection">{{ gameRoundOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label jhiTranslate="moviebattleApp.movie.left" for="field_lefts">Left</label>
+          <select
+            class="form-control"
+            id="field_lefts"
+            data-cy="left"
+            multiple
+            name="lefts"
+            formControlName="lefts"
+            [compareWith]="compareGameRound"
+          >
+            <option [ngValue]="gameRoundOption" *ngFor="let gameRoundOption of gameRoundsSharedCollection">{{ gameRoundOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
