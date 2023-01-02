@@ -1,0 +1,40 @@
+
+entity GameSession {
+	id String
+    userId Long
+}
+
+entity GameRound {
+	gameSessionId String
+    rightImdbId String
+    leftImdbId String
+    userChoice Choice
+    correct Boolean
+}
+
+entity Movie {
+	imdbId String
+    title String
+    imdbRating Double
+    imdbVotes Long
+    score Double
+}
+
+enum Choice {
+    RIGHT, LEFT
+}
+
+relationship OneToMany {
+	GameRound{gameSessionId} to GameSession{id}
+}
+
+relationship OneToMany {
+	GameRound{rightImdbId} to Movie{imdbId}
+}
+
+relationship OneToMany {
+	GameRound{leftImdbId} to Movie{imdbId}
+}
+
+service all with serviceImpl
+
