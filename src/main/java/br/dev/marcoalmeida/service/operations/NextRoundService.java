@@ -2,12 +2,13 @@ package br.dev.marcoalmeida.service.operations;
 
 import br.dev.marcoalmeida.domain.GameRound;
 import br.dev.marcoalmeida.domain.GameSession;
+import br.dev.marcoalmeida.domain.Movie;
 import br.dev.marcoalmeida.domain.enumeration.Choice;
 import br.dev.marcoalmeida.service.GameRoundService;
 import br.dev.marcoalmeida.service.GameSessionService;
+import br.dev.marcoalmeida.service.IdempotentPair;
 import br.dev.marcoalmeida.service.MovieService;
 import br.dev.marcoalmeida.service.api.dto.UnansweredGameRoundDTO;
-import br.dev.marcoalmeida.service.dto.MoviePairDTO;
 import br.dev.marcoalmeida.web.api.NextRoundApiDelegate;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +41,8 @@ public class NextRoundService implements NextRoundApiDelegate {
     }
 
     private ResponseEntity<UnansweredGameRoundDTO> fetchNextRound(GameSession gameSession) {
+        if (gameSession.getFinished()) return ResponseEntity.unprocessableEntity().build();
+
         List<GameRound> unanswered = gameSession
             .getGameRounds()
             .stream()
@@ -60,13 +63,14 @@ public class NextRoundService implements NextRoundApiDelegate {
     private ResponseEntity<UnansweredGameRoundDTO> createNewRound(GameSession gameSession) {
         if (gameSession.getFinished()) return ResponseEntity.unprocessableEntity().build();
 
-        Set<MoviePairDTO> usedPairs = gameSessionService.getUsedMoviePairs(gameSession);
+        Set<IdempotentPair<Movie>> usedIdepotentPairs = gameSessionService.getUsedMoviePairs(gameSession);
 
-        MoviePairDTO newPair;
+        IdempotentPair<Movie> newPair;
         int i = 0;
         do {
             newPair = movieService.getRandomPair();
-        } while (usedPairs.contains(newPair) && i < MAX_ATTEMPTS);
+            i++;
+        } while (usedIdepotentPairs.contains(newPair) && i < MAX_ATTEMPTS);
 
         if (i == MAX_ATTEMPTS) {
             return ResponseEntity.internalServerError().build();

@@ -2,10 +2,9 @@ package br.dev.marcoalmeida.service.impl;
 
 import br.dev.marcoalmeida.domain.Movie;
 import br.dev.marcoalmeida.repository.MovieRepository;
+import br.dev.marcoalmeida.service.IdempotentPair;
 import br.dev.marcoalmeida.service.MovieService;
-import br.dev.marcoalmeida.service.dto.MoviePairDTO;
 import java.util.*;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -87,10 +86,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MoviePairDTO getRandomPair() {
-        Stack<Movie> titleStack = new Stack<>();
-        titleStack.addAll(new HashSet<>(movieRepository.findAll()));
+    public IdempotentPair<Movie> getRandomPair() {
+        List<Movie> allMovies = movieRepository.findAll();
+        Collections.shuffle(allMovies);
 
-        return new MoviePairDTO(titleStack.pop(), titleStack.pop());
+        Iterator<Movie> iterator = new HashSet<>(allMovies).iterator();
+        return new IdempotentPair<>(iterator.next(), iterator.next());
     }
 }

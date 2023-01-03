@@ -1,11 +1,8 @@
 package br.dev.marcoalmeida.service;
 
 import br.dev.marcoalmeida.domain.Movie;
-import br.dev.marcoalmeida.service.dto.MoviePairDTO;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import org.springframework.data.util.Pair;
 
 /**
  * Service Interface for managing {@link Movie}.
@@ -57,5 +54,5 @@ public interface MovieService {
      */
     void delete(Long id);
 
-    MoviePairDTO getRandomPair();
+    IdempotentPair<Movie> getRandomPair();
 }

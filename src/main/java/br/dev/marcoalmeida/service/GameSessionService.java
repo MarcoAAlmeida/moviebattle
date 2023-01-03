@@ -1,7 +1,7 @@
 package br.dev.marcoalmeida.service;
 
 import br.dev.marcoalmeida.domain.GameSession;
-import br.dev.marcoalmeida.service.dto.MoviePairDTO;
+import br.dev.marcoalmeida.domain.Movie;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -58,7 +58,7 @@ public interface GameSessionService {
 
     GameSession createGameSession(String userId);
 
-    Set<MoviePairDTO> getUsedMoviePairs(GameSession gameSession);
+    Set<IdempotentPair<Movie>> getUsedMoviePairs(GameSession gameSession);
 
     Optional<GameSession> findOneWithRounds(Long id);
 }

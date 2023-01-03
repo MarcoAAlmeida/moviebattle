@@ -3,7 +3,7 @@ package br.dev.marcoalmeida.service.impl;
 import br.dev.marcoalmeida.domain.GameSession;
 import br.dev.marcoalmeida.repository.GameSessionRepository;
 import br.dev.marcoalmeida.service.GameSessionService;
-import br.dev.marcoalmeida.service.dto.MoviePairDTO;
+import br.dev.marcoalmeida.service.IdempotentPair;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -89,11 +89,11 @@ public class GameSessionServiceImpl implements GameSessionService {
     }
 
     @Override
-    public Set<MoviePairDTO> getUsedMoviePairs(GameSession gameSession) {
+    public Set getUsedMoviePairs(GameSession gameSession) {
         return gameSession
             .getGameRounds()
             .stream()
-            .map(round -> new MoviePairDTO(round.getLeft(), round.getRight()))
+            .map(round -> new IdempotentPair(round.getLeft(), round.getRight()))
             .collect(Collectors.toSet());
     }
 

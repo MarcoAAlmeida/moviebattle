@@ -3,6 +3,7 @@ package br.dev.marcoalmeida.service.operations;
 import br.dev.marcoalmeida.service.GameSessionService;
 import br.dev.marcoalmeida.service.UserService;
 import br.dev.marcoalmeida.service.api.dto.GameSessionDTO;
+import br.dev.marcoalmeida.service.mapper.GameSessionMapper;
 import br.dev.marcoalmeida.web.api.StartGameApiDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +20,13 @@ public class StartGameService implements StartGameApiDelegate {
     @Autowired
     UserService userService;
 
+    @Autowired
+    GameSessionMapper gameSessionMapper;
+
     @Override
     public ResponseEntity<GameSessionDTO> startGame() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        return ResponseEntity.ok(gameSessionService.createGameSession(authentication.getName()).gameSessionDTO());
+        return ResponseEntity.ok(gameSessionMapper.gameSessionDTO(gameSessionService.createGameSession(authentication.getName())));
     }
 }

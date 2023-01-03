@@ -11,12 +11,12 @@ servers:
     description: Development server with TLS Profile
 paths:
   /startGame:
-    get:
-      summary: returns an id value which can be used as gameSessionId parameter in other endpoints
+    post:
+      summary: returns a new gameSessionId value
       operationId: startGame
       responses:
         '200':
-          description: use the returned id value in other endpoints
+          description: use the returned gameSessionId in other endpoints
           content:
             application/json:
               schema:
@@ -25,20 +25,42 @@ paths:
           description: could not generate a new gameSessionId
       security:
         - sessionId: []
-  /nextRound:
-    get:
-      summary: returns the next open
-      operationId: nextRound
+  /stopGame/{gameSessionId}:
+    post:
+      summary: stops the game, no more rounds can be played with that gameSessionId
+      operationId: stopGame
       parameters:
         - name: gameSessionId
-          in: query
-          description: a previously created gameSessionId
+          in: path
+          description: the gameSessionId that identifies the current session
           required: true
           schema:
             type: integer
       responses:
         '200':
-          description: use the returned id value as GameRoundId in other endpoints
+          description: gameSessionId is ended
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameSessionDTO'
+        '422':
+          description: gameSession has already ended
+      security:
+        - sessionId: []
+  /nextRound/{gameSessionId}:
+    post:
+      summary: returns the next open round (i.e. round where userChoice is NONE)
+      operationId: nextRound
+      parameters:
+        - name: gameSessionId
+          in: path
+          description: the gameSessionId that identifies the current session
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: use the returned id value as gameRoundId in other endpoints
           content:
             application/json:
               schema:
@@ -48,7 +70,40 @@ paths:
         '422':
           description: gameSession has already ended
         '500':
-          description: inconsitent game stateñ
+          description: inconsistent game state
+      security:
+        - sessionId: []
+  /answerRound/{gameRoundId}:
+    post:
+      summary: answers the the round identified by gameRoundId
+      operationId: answerRound
+      parameters:
+        - name: gameRoundId
+          in: path
+          description: the gameRoundId that identifies the current round
+          required: true
+          schema:
+            type: integer
+        - name: userChoice
+          in: query
+          description: the user choice (whether he thinks LEFT movie has more ranking than RIGHT movie)
+          required: true
+          schema:
+            type: string
+            enum: [LEFT, RIGHT]
+      responses:
+        '200':
+          description: the returned object indicates whether answer was correct or not
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnsweredGameRoundDTO'
+        '404':
+          description: invalid gameRound ID supplied
+        '422':
+          description: gameSession has already ended
+        '500':
+          description: inconsistent game state
       security:
         - sessionId: []
 components:
@@ -59,6 +114,12 @@ components:
         id:
           type: integer
           example: 1
+        userId:
+          type: string
+          example: player1
+        finished:
+          type: boolean
+          example: false
     UnansweredGameRoundDTO:
       type: object
       properties:
@@ -71,7 +132,24 @@ components:
         right:
           type: string
           example: Star Trek
-
+    AnsweredGameRoundDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        left:
+          type: string
+          example: Star Wars
+        right:
+          type: string
+          example: Star Trek
+        userChoice:
+          type: string
+          example: LEFT
+        correct:
+          type: boolean
+          example: false
   responses:
     Problem:
       description: error occurred - see status code and problem object for more information.
